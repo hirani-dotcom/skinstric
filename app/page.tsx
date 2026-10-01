@@ -1,30 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [showCookieNotice, setShowCookieNotice] = useState(true);
+    const router = useRouter();
 
     return (
         <div className="landing-page">
             <main className="landing-main">
-                <a className="discover-edge-link" href="/about">
+                <button className="discover-edge-link" onClick={() => router.push("/about")}>
                     <span className="discover-edge-control">
                         <span className="button-arrow" aria-hidden="true">
                             ←
                         </span>
                         <span>DISCOVER AI</span>
                     </span>
-                </a>
+                </button>
 
-                <a className="test-edge-link" href="/taketest">
+                <button className="test-edge-link" onClick={() => router.push("/taketest")}>
                     <span className="test-edge-control">
                         <span>TAKE TEST</span>
                         <span className="button-arrow" aria-hidden="true">
                             →
                         </span>
                     </span>
-                </a>
+                </button>
 
                 <section className="hero-copy" aria-labelledby="hero-title">
                     <div className="medium-diamond-field" aria-hidden="true">

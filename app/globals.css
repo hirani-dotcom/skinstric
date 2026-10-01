@@ -377,6 +377,40 @@ body {
         transform: translate(-50%, -50%);
     }
 
+    .medium-diamond-field::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        box-sizing: border-box;
+        width: 93.5%;
+        aspect-ratio: 1;
+        padding: 3.25%;
+        opacity: 0;
+        background: conic-gradient(
+            from calc(var(--diamond-fill-angle) - 180deg),
+            transparent 0deg,
+            #a8a8a8 18deg,
+            #eeeeee 150deg,
+            #eeeeee 179deg,
+            transparent 180deg,
+            transparent 360deg
+        );
+        content: "";
+        transform: translate(-50%, -50%) rotate(45deg);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        animation:
+            diamond-gap-appear 250ms ease-out 1100ms both,
+            diamond-gap-orbit 3400ms linear 1100ms infinite;
+    }
+
     .hero-copy {
         position: relative;
         isolation: isolate;
@@ -385,6 +419,7 @@ body {
 
     .medium-diamond {
         position: absolute;
+        z-index: 1;
         top: 50%;
         left: 50%;
         width: 100%;
@@ -392,6 +427,39 @@ body {
         border: 1px dotted #b8b9b9;
         opacity: 0;
         transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .medium-diamond-left::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        box-sizing: border-box;
+        width: 100%;
+        aspect-ratio: 1;
+        padding: 3.25%;
+        opacity: 0;
+        background: conic-gradient(
+            from calc(180deg - var(--outer-diamond-fill-angle)),
+            transparent 0deg,
+            #a8a8a8 18deg,
+            #eeeeee 150deg,
+            #eeeeee 179deg,
+            transparent 180deg,
+            transparent 360deg
+        );
+        content: "";
+        transform: translate(-50%, -50%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        animation:
+            diamond-gap-appear 250ms ease-out 1100ms both,
+            outer-diamond-orbit 3400ms linear 1100ms infinite;
     }
 
     .medium-diamond-left {
@@ -407,6 +475,40 @@ body {
             converge-diamond-right 1100ms cubic-bezier(0.2, 0.7, 0.2, 1)
                 forwards,
             diamond-pulse 1800ms ease-in-out 1100ms infinite alternate;
+    }
+}
+
+@property --diamond-fill-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@property --outer-diamond-fill-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes diamond-gap-appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes diamond-gap-orbit {
+    to {
+        --diamond-fill-angle: 360deg;
+    }
+}
+
+@keyframes outer-diamond-orbit {
+    to {
+        --outer-diamond-fill-angle: 360deg;
     }
 }
 
@@ -551,5 +653,17 @@ body {
     .medium-diamond {
         animation: none;
         opacity: 1;
+    }
+
+    .medium-diamond-field::before {
+        animation: none;
+        opacity: 1;
+        --diamond-fill-angle: 0deg;
+    }
+
+    .medium-diamond-left::before {
+        animation: none;
+        opacity: 1;
+        --outer-diamond-fill-angle: 0deg;
     }
 }

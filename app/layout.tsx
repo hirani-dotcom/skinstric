@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import SiteHeader from "./site-header";
+import SiteHeader from "../app/site-header";
+import SiteFooter from "../app/site-footer";
 import "./globals.css";
 
 const roobert = localFont({
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <body className="min-h-full flex flex-col">
                 <SiteHeader />
                 {children}
+                <SiteFooter />
             </body>
         </html>
     );

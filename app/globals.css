@@ -211,6 +211,16 @@ body {
         transform 180ms ease;
 }
 
+.footer-arrow {
+    width: 21px;
+    transform: rotate(45deg);
+}
+
+.footer-arrow > span {
+    display: block;
+    transform: rotate(-45deg);
+}
+
 .discover-edge-control:hover .button-arrow,
 .discover-edge-link:focus-visible .button-arrow,
 .test-edge-control:hover .button-arrow,

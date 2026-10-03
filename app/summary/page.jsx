@@ -393,7 +393,7 @@ export default function SummaryPage() {
                             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-700">
                                 {activeCategoryLabel}
                             </p>
-                            <p className="mt-5 break-words text-3xl font-medium uppercase leading-tight tracking-tight text-black sm:mt-8 sm:text-4xl">
+                            <p className="mt-5 wrap-break-word text-3xl font-medium uppercase leading-tight tracking-tight text-black sm:mt-8 sm:text-4xl">
                                 {selectedTopItem
                                     ? selectedTopItem.label
                                     : formatDisplayValue(
@@ -457,7 +457,7 @@ export default function SummaryPage() {
                                                 handleBreakdownSelection(label)
                                             }
                                         >
-                                            <span className="min-w-0 break-words">
+                                            <span className="min-w-0 wrap-break-word">
                                                 {label}
                                             </span>
                                             <span className="shrink-0">

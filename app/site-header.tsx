@@ -15,21 +15,21 @@ export default function SiteHeader() {
 
     return (
         <>
-            <header className="flex items-center justify-between p-6 absolute top-0 left-0 right-0 z-50 text-black">
+            <header className="absolute left-0 right-0 top-0 z-50 flex items-center justify-between p-4 text-black sm:p-6">
                 <div>
-                <button
-                    className="text-xs font-medium tracking-tight hover:bg-black hover:text-white transition-colors px-4 py-2"
-                    onClick={() => router.push("/")}
-                    aria-label="Skinstric Home"
-                >
-                    SKINSTRIC
-                </button>
-                <span className="text-xs text-neutral-500 tracking-tight ml-4 ">
-                    [  INTRO  ]
-                </span>
+                    <button
+                        className="px-2 py-2 text-xs font-medium tracking-tight transition-colors hover:bg-black hover:text-white sm:px-4"
+                        onClick={() => router.push("/")}
+                        aria-label="Skinstric Home"
+                    >
+                        SKINSTRIC
+                    </button>
+                    <span className="ml-2 whitespace-nowrap text-xs tracking-tight text-neutral-500 sm:ml-4">
+                        [ INTRO ]
+                    </span>
                 </div>
                 <button
-                    className="text-xs text-white bg-black border border-gray-300 px-4 py-2 hover:bg-white hover:text-black transition-colors"
+                    className="border border-gray-300 bg-black px-3 py-2 text-xs text-white transition-colors hover:bg-white hover:text-black sm:px-4"
                     onClick={() => setIsCodeOpen(true)}
                 >
                     ENTER CODE <span aria-hidden="true">↗</span>

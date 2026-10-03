@@ -86,6 +86,7 @@ export default function SummaryPage() {
         age: "",
         sex: "",
     });
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
     useEffect(() => {
         const savedDemographics = sessionStorage.getItem(
@@ -94,7 +95,48 @@ export default function SummaryPage() {
 
         if (savedDemographics) {
             try {
-                setDemographics(JSON.parse(savedDemographics));
+                const parsedDemographics = JSON.parse(savedDemographics);
+                const storedCorrections = JSON.parse(
+                    sessionStorage.getItem(
+                        "skinstric.demographicsCorrections",
+                    ) || "{}",
+                );
+                const breakdowns = {
+                    race: getBreakdown(parsedDemographics, [
+                        "race",
+                        "raceBreakdown",
+                        "racialBreakdown",
+                        "demographics",
+                        "predictions",
+                    ]),
+                    age: getBreakdown(parsedDemographics, [
+                        "age",
+                        "ageBreakdown",
+                        "ageRange",
+                        "demographics",
+                        "predictions",
+                    ]),
+                    sex: getBreakdown(parsedDemographics, [
+                        "sex",
+                        "gender",
+                        "genderBreakdown",
+                        "demographics",
+                        "predictions",
+                    ]),
+                };
+                const initialSelections = Object.fromEntries(
+                    Object.entries(breakdowns).map(([category, breakdown]) => {
+                        const correction = storedCorrections[category];
+                        return [
+                            category,
+                            breakdown.some((item) => item.label === correction)
+                                ? correction
+                                : "",
+                        ];
+                    }),
+                );
+                setDemographics(parsedDemographics);
+                setSelectedCategoryValues(initialSelections);
             } catch {
                 setDemographics(null);
             }
@@ -185,25 +227,70 @@ export default function SummaryPage() {
               ? "age"
               : "sex";
 
+    const currentCategoryValues = Object.fromEntries(
+        Object.entries(categoryBreakdownMap).map(([category, breakdown]) => [
+            category,
+            selectedCategoryValues[category] || breakdown[0]?.label || "",
+        ]),
+    );
     const handleBreakdownSelection = (label) => {
+        setIsConfirmed(false);
         setSelectedCategoryValues((prev) => ({
             ...prev,
             [activeCategory]: label,
         }));
     };
 
+    const handleReset = () => {
+        setIsConfirmed(false);
+        setSelectedCategoryValues({
+            race: raceBreakdown[0]?.label || "",
+            age: ageBreakdown[0]?.label || "",
+            sex: sexBreakdown[0]?.label || "",
+        });
+    };
+
+    const handleConfirm = () => {
+        const savedDemographics = {
+            race: getCategoryDisplayValue("race"),
+            age: getCategoryDisplayValue("age"),
+            sex: getCategoryDisplayValue("sex"),
+        };
+        const corrections = Object.fromEntries(
+            Object.entries(categoryBreakdownMap).flatMap(
+                ([category, breakdown]) => {
+                    const selectedValue = currentCategoryValues[category];
+                    return selectedValue &&
+                        selectedValue !== breakdown[0]?.label
+                        ? [[category, selectedValue]]
+                        : [];
+                },
+            ),
+        );
+
+        localStorage.setItem(
+            "skinstric.savedDemographics",
+            JSON.stringify(savedDemographics),
+        );
+        sessionStorage.setItem(
+            "skinstric.demographicsCorrections",
+            JSON.stringify(corrections),
+        );
+        setIsConfirmed(true);
+    };
+
     return (
-        <main className="min-h-screen bg-[#f5f5f3] px-6 pb-16 pt-20 text-neutral-900">
-            <section className="mx-auto w-full max-w-5xl">
-                <h1 className="text-5xl font-medium uppercase tracking-tight text-black">
+        <main className="min-h-screen bg-[#f5f5f3] px-4 pb-24 pt-32 text-neutral-900 sm:px-6 xl:px-10 2xl:px-14">
+            <section className="mx-auto w-full">
+                <h1 className="text-3xl font-medium uppercase leading-tight tracking-tight text-black sm:text-4xl md:text-5xl">
                     demographics
                 </h1>
-                <h2 className="text-sm font-medium uppercase tracking-tight text-black">
+                <h2 className="mt-1 text-sm font-medium uppercase tracking-tight text-black sm:text-base">
                     predicted age & race
                 </h2>
 
-                <div className="mt-8 grid gap-4 md:grid-cols-3">
-                    <div className="min-h-60 bg-white p-4">
+                <div className="mt-6 grid gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-3">
+                    <div className="min-h-60 bg-white p-4 sm:p-5">
                         <div className="flex h-full flex-col gap-4">
                             <button
                                 type="button"
@@ -301,12 +388,12 @@ export default function SummaryPage() {
                         </div>
                     </div>
 
-                    <div className="min-h-60 bg-[#e7e7e5] p-5">
+                    <div className="min-h-60 bg-[#e7e7e5] p-4 sm:p-5">
                         <div className="flex h-full flex-col">
                             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-700">
                                 {activeCategoryLabel}
                             </p>
-                            <p className="mt-8 text-4xl font-medium uppercase tracking-tight text-black">
+                            <p className="mt-5 break-words text-3xl font-medium uppercase leading-tight tracking-tight text-black sm:mt-8 sm:text-4xl">
                                 {selectedTopItem
                                     ? selectedTopItem.label
                                     : formatDisplayValue(
@@ -327,8 +414,8 @@ export default function SummaryPage() {
                                             "background 1.5s ease-in-out",
                                     }}
                                 >
-                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#e7e7e5] text-center sm:h-24 sm:w-24 md:h-28 md:w-28">
-                                        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-900 sm:text-[11px] md:text-[12px]">
+                                    <div className="flex h-26 w-26 items-center justify-center rounded-full bg-[#e7e7e5] text-center sm:h-30 sm:w-30 md:h-34 md:w-34">
+                                        <span className="text-base font-semibold uppercase tracking-[0.12em] text-neutral-900 sm:text-lg md:text-xl">
                                             {selectedTopItem
                                                 ? `${selectedTopItem.value.toFixed(2)}%`
                                                 : "0.00%"}
@@ -336,15 +423,10 @@ export default function SummaryPage() {
                                     </div>
                                 </div>
                             </div>
-
-                            <p className="mt-auto pt-6 text-[10px] font-medium uppercase tracking-[0.12em] text-neutral-600">
-                                If my estimation is not correct, please select
-                                the correct one to the right
-                            </p>
                         </div>
                     </div>
 
-                    <div className="min-h-60 bg-[#d9d9d6] p-5">
+                    <div className="min-h-60 bg-[#d9d9d6] p-4 sm:p-5">
                         <div className="flex items-center justify-between gap-3">
                             <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-700">
                                 {activeCategoryLabel}
@@ -375,8 +457,12 @@ export default function SummaryPage() {
                                                 handleBreakdownSelection(label)
                                             }
                                         >
-                                            <span>{label}</span>
-                                            <span>{value.toFixed(2)}%</span>
+                                            <span className="min-w-0 break-words">
+                                                {label}
+                                            </span>
+                                            <span className="shrink-0">
+                                                {value.toFixed(2)}%
+                                            </span>
                                         </li>
                                     );
                                 })}
@@ -390,6 +476,27 @@ export default function SummaryPage() {
                                 No demographic results available
                             </p>
                         )}
+                    </div>
+                    <div className="mt-2 flex justify-center lg:col-start-2 lg:row-start-2">
+                        <p className="text-center text-sm text-neutral-500">
+                            If AI estimate is wrong, select the correct one
+                        </p>
+                    </div>
+                    <div className="mt-2 flex justify-center gap-3 lg:col-start-3 lg:row-start-2">
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            className="border border-neutral-500 px-5 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-neutral-700 transition-colors hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+                        >
+                            Reset
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleConfirm}
+                            className="border border-black bg-black px-5 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+                        >
+                            {isConfirmed ? "Changes Saved" : "Confirm"}
+                        </button>
                     </div>
                 </div>
             </section>

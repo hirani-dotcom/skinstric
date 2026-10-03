@@ -122,6 +122,9 @@ body {
     pointer-events: none;
     text-decoration: none;
     transform: translateY(-50%);
+    transition:
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 280ms ease;
 }
 
 .discover-edge-link {
@@ -132,22 +135,45 @@ body {
     right: 0;
 }
 
-.discover-edge-link::before,
-.test-edge-link::before {
+.edge-diamond-frame {
     position: absolute;
     top: 50%;
     width: min(30vw, 253px);
     height: min(30vw, 253px);
-    border: 1px dotted #b8b9b9;
-    content: "";
+    border: 1px dotted #333333;
+    pointer-events: none;
 }
 
-.discover-edge-link::before {
+.edge-diamond-middle,
+.edge-diamond-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    box-sizing: border-box;
+    aspect-ratio: 1;
+    border: 1px dotted;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 220ms ease;
+}
+
+.edge-diamond-middle {
+    width: 108%;
+    border-color: #969696;
+}
+
+.edge-diamond-outer {
+    width: 116%;
+    border-color: #d8d8d8;
+}
+
+.discover-edge-link .edge-diamond-frame {
     left: 0;
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.test-edge-link::before {
+.test-edge-link .edge-diamond-frame {
     right: 0;
     transform: translate(50%, -50%) rotate(45deg);
 }
@@ -161,12 +187,18 @@ body {
 }
 
 .hero-copy {
+    position: relative;
+    left: 0;
     display: flex;
     width: min(620px, 80vw);
     flex-direction: column;
     align-items: center;
     padding-top: 8px;
     text-align: center;
+    transition:
+        left 520ms cubic-bezier(0.22, 1, 0.36, 1),
+        width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-kicker,
@@ -188,13 +220,22 @@ body {
     font-size: 86px;
     font-weight: 400;
     line-height: 0.95;
+    transform: scaleX(0.834);
+    transform-origin: center;
+    transition:
+        font-size 520ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform-origin 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-description {
+    position: fixed;
+    bottom: 82px;
+    left: 34px;
     max-width: 305px;
-    margin: 24px 0 0;
-    font-size: 9px;
+    margin: 0;
+    font-size: 11px;
     line-height: 1.45;
+    text-align: left;
 }
 
 .button-arrow {
@@ -209,6 +250,52 @@ body {
         background-color 180ms ease,
         color 180ms ease,
         transform 180ms ease;
+}
+
+.discover-edge-control .button-arrow,
+.test-edge-control .button-arrow {
+    position: relative;
+    isolation: isolate;
+    border-color: transparent;
+}
+
+.discover-edge-control .button-arrow::before,
+.test-edge-control .button-arrow::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 70.71%;
+    aspect-ratio: 1;
+    z-index: 0;
+    border: 1px solid #000000;
+    content: "";
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: width 180ms ease;
+}
+
+.discover-edge-control .button-arrow::after,
+.test-edge-control .button-arrow::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 70.71%;
+    aspect-ratio: 1;
+    z-index: 0;
+    border: 2px solid #000000;
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition:
+        width 180ms ease,
+        opacity 180ms ease;
+}
+
+.edge-arrow-glyph {
+    position: relative;
+    z-index: 1;
 }
 
 .footer-arrow {
@@ -227,6 +314,29 @@ body {
 .test-edge-link:focus-visible .button-arrow {
     background: var(--ink);
     color: var(--paper);
+}
+
+.discover-edge-control:hover .button-arrow,
+.discover-edge-link:focus-visible .button-arrow,
+.test-edge-control:hover .button-arrow,
+.test-edge-link:focus-visible .button-arrow {
+    background: transparent;
+}
+
+.discover-edge-control:hover .button-arrow::before,
+.discover-edge-link:focus-visible .button-arrow::before,
+.test-edge-control:hover .button-arrow::before,
+.test-edge-link:focus-visible .button-arrow::before {
+    width: 85%;
+    background: var(--ink);
+}
+
+.discover-edge-control:hover .button-arrow::after,
+.discover-edge-link:focus-visible .button-arrow::after,
+.test-edge-control:hover .button-arrow::after,
+.test-edge-link:focus-visible .button-arrow::after {
+    width: 112%;
+    opacity: 1;
 }
 
 .page-index {
@@ -369,6 +479,10 @@ body {
 }
 
 @media (min-width: 651px) and (max-width: 900px) {
+    .edge-diamond-frame {
+        display: none;
+    }
+
     .discover-edge-link::before,
     .test-edge-link::before {
         width: min(30vw, 253px);
@@ -611,8 +725,9 @@ body {
 
     .hero-description {
         max-width: 255px;
-        margin-top: 20px;
-        font-size: 8px;
+        margin: 0;
+        left: 20px;
+        font-size: 10px;
     }
 
     .page-index {
@@ -645,9 +760,128 @@ body {
     }
 }
 
-@media (max-height: 549px) {
-    .discover-edge-link::before,
-    .test-edge-link::before {
+@media (hover: hover) and (min-width: 651px) and (min-aspect-ratio: 4/3) {
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .discover-edge-link {
+        opacity: 0;
+        transform: translate(calc(-100% - 24px), -50%);
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .test-edge-link
+        .edge-diamond-middle,
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .test-edge-link
+        .edge-diamond-outer {
+        opacity: 1;
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy {
+        left: calc(-25svh);
+        align-items: flex-start;
+        width: min(620px, 80vw, calc(100vw - 50svh - 48px));
+        text-align: left;
+        transform: translateX(calc(34px - 50vw + 50% + 25svh));
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy
+        h1 {
+        transform-origin: left center;
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy
+        h1 {
+        font-size: clamp(54px, calc(16vw - 8svh - 12px), 86px);
+    }
+
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .discover-edge-link
+        .edge-diamond-middle,
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .discover-edge-link
+        .edge-diamond-outer {
+        opacity: 1;
+    }
+
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .test-edge-link {
+        opacity: 0;
+        transform: translate(calc(100% + 24px), -50%);
+    }
+
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .hero-copy {
+        left: 25svh;
+        align-items: flex-end;
+        width: min(620px, 80vw, calc(100vw - 50svh - 48px));
+        text-align: right;
+        transform: translateX(calc(50vw - 25svh - 50% - 34px));
+    }
+
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .hero-copy
+        h1 {
+        transform-origin: right center;
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy
+        h1,
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .hero-copy
+        h1 {
+        font-size: clamp(54px, calc(16vw - 8svh - 12px), 86px);
+    }
+}
+
+@media (hover: hover) and (min-width: 651px) and (max-width: 900px) and (min-aspect-ratio: 4/3) {
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy,
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .hero-copy {
+        align-items: center;
+        text-align: center;
+    }
+
+    .landing-main:has(.test-edge-control:hover, .test-edge-link:focus-visible)
+        .hero-copy
+        h1,
+    .landing-main:has(
+            .discover-edge-control:hover,
+            .discover-edge-link:focus-visible
+        )
+        .hero-copy
+        h1 {
+        transform-origin: center;
+    }
+}
+
+@media (max-height: 549px) and (max-width: 650px) {
+    .edge-diamond-frame {
         display: none;
     }
 }

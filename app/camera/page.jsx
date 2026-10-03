@@ -117,6 +117,32 @@ export default function CameraPage() {
                         muted
                         className="h-full w-full object-cover"
                     />
+                    {cameraStatus === "ready" ? (
+                        <svg
+                            aria-hidden="true"
+                            viewBox="0 0 400 600"
+                            className="pointer-events-none absolute inset-0 h-full w-full"
+                            preserveAspectRatio="xMidYMid meet"
+                        >
+                            <path
+                                d="M200 34c-103 0-166 76-166 190 0 139 64 259 166 330 102-71 166-191 166-330 0-114-63-190-166-190Z"
+                                fill="none"
+                                stroke="#111111"
+                                strokeDasharray="10 8"
+                                strokeLinecap="round"
+                                strokeWidth="8"
+                                opacity="0.85"
+                            />
+                            <path
+                                d="M200 34c-103 0-166 76-166 190 0 139 64 259 166 330 102-71 166-191 166-330 0-114-63-190-166-190Z"
+                                fill="none"
+                                stroke="white"
+                                strokeDasharray="10 8"
+                                strokeLinecap="round"
+                                strokeWidth="3"
+                            />
+                        </svg>
+                    ) : null}
                     {cameraStatus !== "ready" ? (
                         <div className="absolute inset-0 flex items-center justify-center bg-[#f5f5f3] px-6 text-neutral-700">
                             {cameraStatus === "checking" ? (

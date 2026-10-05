@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const COOKIE_CONSENT_KEY = "skinstric.cookie-notice-accepted";
+
 export default function Home() {
-    const [showCookieNotice, setShowCookieNotice] = useState(true);
+    const [showCookieNotice, setShowCookieNotice] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        setShowCookieNotice(
+            window.localStorage.getItem(COOKIE_CONSENT_KEY) !== "accepted",
+        );
+    }, []);
+
+    const handleAcceptCookieNotice = () => {
+        window.localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
+        setShowCookieNotice(false);
+    };
 
     return (
         <div className="landing-page relative min-h-svh overflow-hidden bg-[#fcfcfc] text-[#1a1b1c]">
@@ -72,7 +85,7 @@ export default function Home() {
                     </div>
                     <h1
                         id="hero-title"
-                        className="m-0 text-[86px] font-normal leading-[0.95] transform-[scaleX(0.834)] origin-center [transition:font-size_520ms_cubic-bezier(0.22,1,0.36,1),transform-origin_520ms_cubic-bezier(0.22,1,0.36,1)]"
+                        className="m-0 text-8xl tracking-tighter font-medium leading-[0.95] transform-[scaleX(0.834)] origin-center [transition:font-size_520ms_cubic-bezier(0.22,1,0.36,1),transform-origin_520ms_cubic-bezier(0.22,1,0.36,1)]"
                     >
                         Sophisticated
                         <br />
@@ -80,7 +93,7 @@ export default function Home() {
                     </h1>
                 </section>
                 <p
-                    className="hero-description fixed bottom-20.5 left-8.5 m-0 max-w-76.25 text-left text-[11px] font-semibold leading-[1.45]"
+                    className="hero-description fixed bottom-20.5 left-8.5 m-0 max-w-76.25 text-left text-xs font-normal leading-5"
                     id="hero-description"
                 >
                     SKINSTRIC DEVELOPED AN A.I. THAT CREATES A
@@ -94,12 +107,12 @@ export default function Home() {
                     className="cookie-notice fixed bottom-4.5 left-1/2 z-3 flex w-max max-w-[calc(100vw-24px)] items-center gap-4.5 bg-[#1a1b1c] px-3.5 py-3 text-[#fcfcfc] transform-[translateX(-50%)]"
                     aria-label="Cookie notice"
                 >
-                    <p className="m-0 max-w-45 text-[8px] font-semibold leading-[1.4]">
+                    <p className="m-0 max-w-45 text-[8px] font-semibold leading-normal tracking-[0.02em] text-[#fcfcfc]">
                         WE USE COOKIES TO PROVIDE THE BEST EXPERIENCE
                     </p>
                     <button
                         className="cursor-pointer border border-[#858687] bg-transparent px-2.25 py-1.5 text-[9px] font-semibold text-[#fcfcfc]"
-                        onClick={() => setShowCookieNotice(false)}
+                        onClick={handleAcceptCookieNotice}
                     >
                         OK
                     </button>

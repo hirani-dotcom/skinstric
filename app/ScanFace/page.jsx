@@ -183,14 +183,14 @@ const ScanFacePage = () => {
                 <div className="mt-20 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-0">
                     <div className="flex flex-col items-center justify-center gap-4 md:min-h-60">
                         <div className="relative flex h-54 w-54 items-center justify-center">
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_28s_linear_infinite]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_240s_linear_infinite_reverse]">
+                                <div className="h-40 w-40 rotate-45 border border-dotted border-gray-600 bg-transparent" />
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_38s_linear_infinite_reverse]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_220s_linear_infinite_reverse]">
+                                <div className="h-45 w-45 rotate-45 border border-dotted border-gray-600 bg-transparent" />
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_52s_linear_infinite]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_200s_linear_infinite_reverse]">
+                                <div className="h-50 w-50 rotate-45 border border-dotted border-gray-600 bg-transparent" />
                             </div>
                             <button
                                 type="button"
@@ -222,14 +222,14 @@ const ScanFacePage = () => {
 
                     <div className="flex flex-col items-center justify-center gap-4 md:min-h-60">
                         <div className="relative flex h-54 w-54 items-center justify-center">
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_28s_linear_infinite]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_240s_linear_infinite]">
+                                <div className="h-40 w-40 rotate-45 border border-dotted border-black bg-transparent" />
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_38s_linear_infinite_reverse]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_220s_linear_infinite]">
+                                <div className="h-45 w-45 rotate-45 border border-dotted border-black bg-transparent" />
                             </div>
-                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_52s_linear_infinite]">
-                                <div className="h-42 w-42 rotate-45 border border-dotted border-black bg-transparent" />
+                            <div className="absolute inset-0 flex items-center justify-center animate-[spin_200s_linear_infinite]">
+                                <div className="h-50 w-50 rotate-45 border border-dotted border-black bg-transparent" />
                             </div>
                             <label
                                 className="relative z-10 flex h-30 w-30 -rotate-45 cursor-pointer items-center justify-center text-black transition-transform duration-200 hover:scale-110"

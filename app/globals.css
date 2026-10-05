@@ -140,7 +140,12 @@ body {
 }
 
 .footer-arrow {
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
     width: 21px;
+    aspect-ratio: 1;
+    border: 1px solid #bfc0c0;
     transform: rotate(45deg);
 }
 
